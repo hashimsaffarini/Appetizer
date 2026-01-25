@@ -27,6 +27,11 @@ struct AppetizerListView: View {
         .task {
             await viewModel.load()
         }
+        .alert(item: $viewModel.alertItem) { item in
+            Alert(title: item.title,
+                  message: item.message,
+                  dismissButton: item.dismissButton)
+        }
         .navigationTitle("🍟 Appetizer")
     }
 }

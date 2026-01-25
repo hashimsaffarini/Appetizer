@@ -11,6 +11,7 @@ import Observation
 @Observable
 final class AppetizerListViewModel {
     var appetizers: [Appetizer] = []
+    var alertItem: AlertItem?
     var isLoading = false
 
     func load() async {
@@ -19,9 +20,23 @@ final class AppetizerListViewModel {
 
         do {
             appetizers = try await NetworkManager.shared.getAppetizers()
-            print(appetizers.count)
+        } catch let error as APError {
+            switch error {
+            case .invalidURL:
+                alertItem = AlertContext.invalidURL
+            case .invalidResponse:
+                alertItem = AlertContext.invalidResponse
+            case .invalidData:
+                alertItem = AlertContext.invalidData
+            case .unableToComplete:
+                alertItem = AlertContext.unableToComplete
+            case .statusCode:
+                alertItem = AlertContext.invalidResponse
+            case .decodingFailed:
+                alertItem = AlertContext.unableToComplete
+            }
         } catch {
-            print(error)
+            alertItem = AlertContext.unableToComplete
         }
     }
 }
