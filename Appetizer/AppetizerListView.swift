@@ -8,8 +8,26 @@
 import SwiftUI
 
 struct AppetizerListView: View {
+    @State private var viewModel = AppetizerListViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack{
+            
+            List(viewModel.appetizers) { appetizer in
+                AppetizerListCell(appetizer: appetizer)
+            }
+            
+            if viewModel.isLoading {
+                ProgressView("Loading...")
+                    .padding()
+                    .background(.regularMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            }
+        }
+        .task {
+            await viewModel.load()
+        }
+        .navigationTitle("🍟 Appetizer")
     }
 }
 

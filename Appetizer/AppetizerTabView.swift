@@ -19,19 +19,16 @@ struct AppetizerTabView: View {
             Tab("Home", systemImage: "house" , value: .home) {
                 NavigationStack {
                     AppetizerListView()
-                        .navigationTitle("🍟 Appetizer")
                 }
             }
             Tab("Order", systemImage: "bag" , value: .order) {
                 NavigationStack {
                     OrderView()
-                        .navigationTitle("🛒 Order")
                 }
             }
             Tab("Account", systemImage: "person" , value: .account) {
                 NavigationStack {
                     AccountView()
-                        .navigationTitle("👤 Account")
                 }
             }
         }
