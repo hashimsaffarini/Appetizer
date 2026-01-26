@@ -32,7 +32,7 @@ struct AppetizerTabView: View {
                 }
             }
         }
-        .tint(Color("brandPrimary"))
+        .tint(.brandPrimary)
     }
 }
 
