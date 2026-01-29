@@ -6,16 +6,20 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct AppetizerDetailView: View {
     let appetizer : Appetizer
+    @Binding var isShowingDetail : Bool
     
     var body: some View {
         VStack{
-            Image("burger")
+            KFImage(URL(string: appetizer.imageUrl))
                 .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 300 , height: 225)
+                .scaledToFill()
+                .frame(width: 300, height: 225)
+                .clipped()
+            
             VStack{
                 Text(appetizer.itemName)
                     .font(.title2)
@@ -25,47 +29,16 @@ struct AppetizerDetailView: View {
                     .font(.body)
                     .padding()
                 HStack (spacing: 30){
-                    VStack(spacing: 5) {
-                        Text("Calories")
-                            .bold()
-                            .font(.body)
-                        Text("\(appetizer.restaurantID + 20)")
-                            .foregroundStyle(.secondary)
-                            .fontWeight(.semibold)
-                            .italic()
-                    }
-                    VStack(spacing: 5) {
-                        Text("Carbs")
-                            .bold()
-                            .font(.body)
-                        Text("\(appetizer.restaurantID + 30)")
-                            .foregroundStyle(.secondary)
-                            .fontWeight(.semibold)
-                            .italic()
-                    }
-                    VStack(spacing: 5) {
-                        Text("Protein")
-                            .bold()
-                            .font(.body)
-                        Text("\(appetizer.restaurantID)")
-                            .foregroundStyle(.secondary)
-                            .fontWeight(.semibold)
-                            .italic()
-                    }
+                    NutritionInfo(title: "Calories", value: appetizer.restaurantID + 20)
+                    NutritionInfo(title: "Carbs", value: appetizer.restaurantID + 30)
+                    NutritionInfo(title: "Protein", value: appetizer.restaurantID)
                 }
             }
             Spacer()
             Button{
-                
             }label: {
-                Text("$\(appetizer.itemPrice, specifier : "%.1f") - Add to Order")
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .frame(width: 260 , height: 50)
-                    .foregroundStyle(.white)
-                    .background(.brandPrimary)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    
+                APButton(title: "$\(appetizer.itemPrice, specifier : "%.1f") - Add to Order")
+                
             }
             .padding(.bottom , 30)
         }
@@ -74,20 +47,30 @@ struct AppetizerDetailView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(radius: 40)
         .overlay(Button {
-            
+            isShowingDetail = false
         } label: {
-            Circle()
-                .frame(width: 30 , height: 30)
-                .foregroundStyle(.white)
-                .opacity(0.6)
-            Image(systemName: "xmark")
-                .imageScale(.small)
-                .frame(width: 44 , height: 44)
-                .foregroundStyle(.black)
+            XDismissButton()
         } , alignment: .topTrailing)
     }
 }
 
+struct NutritionInfo : View {
+    let title : String
+    let value : Int
+    
+    var body: some View {
+        VStack(spacing: 5) {
+            Text(title)
+                .bold()
+                .font(.body)
+            Text("\(value)")
+                .foregroundStyle(.secondary)
+                .fontWeight(.semibold)
+                .italic()
+        }
+    }
+}
+
 #Preview {
-    AppetizerDetailView(appetizer: MockData.sampleAppetizers)
+    AppetizerDetailView(appetizer: MockData.sampleAppetizers , isShowingDetail: .constant(false))
 }

@@ -9,12 +9,21 @@ import SwiftUI
 
 struct AppetizerListView: View {
     @State private var viewModel = AppetizerListViewModel()
+
     
     var body: some View {
         ZStack{
-            
             List(viewModel.appetizers) { appetizer in
-                AppetizerListCell(appetizer: appetizer)
+                    AppetizerListCell(appetizer: appetizer)
+                    .onTapGesture {
+                        viewModel.selectedAppetizer = appetizer
+                        viewModel.isShowingDetail = true
+                    }
+            }
+            .disabled(viewModel.isShowingDetail)
+            .blur(radius: viewModel.isShowingDetail ? 20 : 0)
+            if viewModel.isShowingDetail {
+                AppetizerDetailView(appetizer: viewModel.selectedAppetizer! , isShowingDetail: $viewModel.isShowingDetail)
             }
             
             if viewModel.isLoading {
@@ -33,6 +42,7 @@ struct AppetizerListView: View {
                   dismissButton: item.dismissButton)
         }
         .navigationTitle("🍟 Appetizer")
+        
     }
 }
 

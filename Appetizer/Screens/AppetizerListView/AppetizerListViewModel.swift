@@ -13,6 +13,8 @@ final class AppetizerListViewModel {
     var appetizers: [Appetizer] = []
     var alertItem: AlertItem?
     var isLoading = false
+    var isShowingDetail = false
+    var selectedAppetizer: Appetizer?
 
     func load() async {
         isLoading = true
