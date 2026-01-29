@@ -8,27 +8,22 @@
 import SwiftUI
 
 struct AccountView: View {
-    @State private var firstName = ""
-    @State private var lastName = ""
-    @State private var email = ""
-    @State private var date = Date()
-    @State private var extraNapkins = false
-    @State private var frequentRefills = false
+    @State private var viewModel = AccountViewModel()
     
     var body: some View {
         Form{
             Section(header : Text("Personal Info")){
-                TextField("First Name", text: $firstName)
-                TextField("Last Name", text: $lastName)
-                TextField("Email", text: $email)
+                TextField("First Name", text: $viewModel.firstName)
+                TextField("Last Name", text: $viewModel.lastName)
+                TextField("Email", text: $viewModel.email)
                     .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.none)
                     .autocorrectionDisabled(true)
-                DatePicker("Birthday", selection: $date, displayedComponents: .date)
+                DatePicker("Birthday", selection: $viewModel.date, displayedComponents: .date)
             }
             Section(header : Text("Requests")){
-                Toggle("Extra Napkins", isOn: $extraNapkins)
-                Toggle("Frequent Refills", isOn: $frequentRefills)
+                Toggle("Extra Napkins", isOn: $viewModel.extraNapkins)
+                Toggle("Frequent Refills", isOn: $viewModel.frequentRefills)
             }
             .tint(.accentColor)
             
@@ -37,11 +32,15 @@ struct AccountView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Save") {
-                    print("Saved")
+                    viewModel.saveChanges()
                 }
             }
         }
-    }
+        .alert(item: $viewModel.alertItem) { item in
+            Alert(title: item.title,
+                  message: item.message,
+                  dismissButton: item.dismissButton)
+        }    }
 }
 
 #Preview {
