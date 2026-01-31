@@ -13,20 +13,23 @@ struct AccountView: View {
     var body: some View {
         Form{
             Section(header : Text("Personal Info")){
-                TextField("First Name", text: $viewModel.firstName)
-                TextField("Last Name", text: $viewModel.lastName)
-                TextField("Email", text: $viewModel.email)
+                TextField("First Name", text: $viewModel.user.firstName)
+                TextField("Last Name", text: $viewModel.user.lastName)
+                TextField("Email", text: $viewModel.user.email)
                     .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.none)
                     .autocorrectionDisabled(true)
-                DatePicker("Birthday", selection: $viewModel.date, displayedComponents: .date)
+                DatePicker("Birthday", selection: $viewModel.user.date, displayedComponents: .date)
             }
             Section(header : Text("Requests")){
-                Toggle("Extra Napkins", isOn: $viewModel.extraNapkins)
-                Toggle("Frequent Refills", isOn: $viewModel.frequentRefills)
+                Toggle("Extra Napkins", isOn: $viewModel.user.extraNapkins)
+                Toggle("Frequent Refills", isOn: $viewModel.user.frequentRefills)
             }
             .tint(.accentColor)
             
+        }
+        .task {
+            viewModel.retrieveUser()
         }
         .navigationTitle("👤 Account")
         .toolbar {
