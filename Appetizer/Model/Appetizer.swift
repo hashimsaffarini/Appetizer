@@ -15,7 +15,7 @@ struct Appetizer: Identifiable, Codable , Hashable {
     let restaurantName: String
     let restaurantID: Int
     let imageUrl: String
-
+    
     enum CodingKeys: String, CodingKey {
         case id = "itemID"
         case itemName
@@ -39,5 +39,35 @@ struct MockData {
     )
     
     static let appetizer = [sampleAppetizers , sampleAppetizers , sampleAppetizers , sampleAppetizers]
-
+    
+    static let dummyAppetizer1 = Appetizer(
+        id: 1,
+        itemName: "Afghan Kebabs",
+        itemDescription: "Grilled kebabs made with marinated lamb, served with naan.",
+        itemPrice: 450,
+        restaurantName: "Peacock Rooftop Restaurant",
+        restaurantID: 28,
+        imageUrl: "burger"
+    )
+    static let dummyAppetizer2 = Appetizer(
+        id: 2,
+        itemName: "Afghan Kebabs",
+        itemDescription: "Grilled kebabs made with marinated lamb, served with naan.",
+        itemPrice: 450,
+        restaurantName: "Peacock Rooftop Restaurant",
+        restaurantID: 28,
+        imageUrl: "burger"
+    )
+    static let dummyAppetizer3 = Appetizer(
+        id: 3,
+        itemName: "Afghan Kebabs",
+        itemDescription: "Grilled kebabs made with marinated lamb, served with naan.",
+        itemPrice: 450,
+        restaurantName: "Peacock Rooftop Restaurant",
+        restaurantID: 28,
+        imageUrl: "burger"
+    )
+    
+    static let dymmyAppetizers = [dummyAppetizer1, dummyAppetizer2 , dummyAppetizer3]
+    
 }
