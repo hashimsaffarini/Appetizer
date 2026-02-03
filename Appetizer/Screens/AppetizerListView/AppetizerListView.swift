@@ -15,6 +15,7 @@ struct AppetizerListView: View {
         ZStack{
             List(viewModel.appetizers) { appetizer in
                     AppetizerListCell(appetizer: appetizer)
+                 //   .listRowSeparator(.hidden)
                     .onTapGesture {
                         viewModel.selectedAppetizer = appetizer
                         viewModel.isShowingDetail = true

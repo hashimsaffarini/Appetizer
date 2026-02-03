@@ -9,13 +9,26 @@ import SwiftUI
 
 struct AccountView: View {
     @State private var viewModel = AccountViewModel()
+    @FocusState private var focusedField : FormTextFiled?
+    enum FormTextFiled{
+        case firstName,lastName,email
+    }
     
     var body: some View {
         Form{
             Section(header : Text("Personal Info")){
                 TextField("First Name", text: $viewModel.user.firstName)
+                    .focused($focusedField, equals: .firstName)
+                    .onSubmit { focusedField = .lastName }
+                    .submitLabel(.next)
                 TextField("Last Name", text: $viewModel.user.lastName)
+                    .focused($focusedField, equals: .lastName)
+                    .onSubmit { focusedField = .email }
+                    .submitLabel(.next)
                 TextField("Email", text: $viewModel.user.email)
+                    .focused($focusedField, equals: .email)
+                    .onSubmit { focusedField = nil }
+                    .submitLabel(.continue)
                     .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.none)
                     .autocorrectionDisabled(true)

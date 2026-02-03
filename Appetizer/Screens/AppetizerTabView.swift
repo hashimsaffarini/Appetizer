@@ -14,6 +14,8 @@ enum AppTab: Hashable {
 
 struct AppetizerTabView: View {
     @State private var selection: AppTab = .home
+    @Environment(Order.self) private var order: Order
+    
     var body: some View {
         TabView (selection: $selection){
             Tab("Home", systemImage: "house" , value: .home) {
@@ -26,6 +28,7 @@ struct AppetizerTabView: View {
                     OrderView()
                 }
             }
+            .badge(order.items.count)
             Tab("Account", systemImage: "person" , value: .account) {
                 NavigationStack {
                     AccountView()
